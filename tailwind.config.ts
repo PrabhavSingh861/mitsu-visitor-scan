@@ -52,6 +52,14 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Mitsubishi Brand Colors
+				mitsubishi: {
+					red: 'hsl(var(--mitsubishi-red))',
+					'red-light': 'hsl(var(--mitsubishi-red-light))',
+					'red-dark': 'hsl(var(--mitsubishi-red-dark))',
+					gray: 'hsl(var(--mitsubishi-gray))',
+					'gray-light': 'hsl(var(--mitsubishi-gray-light))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -84,11 +92,29 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				fadeIn: {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'pulse-slow': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-slow': 'pulse 3s ease-in-out infinite',
+				'fade-in': 'fadeIn 0.5s ease-out'
+			},
+			backgroundImage: {
+				'gradient-mitsubishi': 'var(--gradient-mitsubishi)',
+				'gradient-subtle': 'var(--gradient-subtle)'
+			},
+			boxShadow: {
+				'mitsubishi': 'var(--shadow-mitsubishi)',
+				'elegant': 'var(--shadow-elegant)'
 			}
 		}
 	},
