@@ -1,0 +1,20 @@
+version: "3.9"
+
+networks:
+  mitsubishi_net:
+    driver: bridge
+
+services:
+  mitsubishi:
+    # image: vinay0981123/mitsu:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mitsubishi_app
+    ports:
+      - "8080:8080"
+    networks:
+      - mitsubishi_net
+
+
+      
