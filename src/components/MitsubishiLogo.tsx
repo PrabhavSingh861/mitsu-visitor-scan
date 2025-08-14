@@ -1,16 +1,16 @@
-import mitsubishiLogo from "@/assets/mitsubishi-logo.png";
+import mitsubishiLogo from "@/assets/mitsubishi-electric-logo.png";
 
 const MitsubishiLogo = ({ className = "" }: { className?: string }) => {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <img 
         src={mitsubishiLogo} 
-        alt="Mitsubishi Motors" 
+        alt="Mitsubishi Electric" 
         className="h-8 w-auto"
       />
       <div className="flex flex-col">
         <span className="text-lg font-bold text-mitsubishi-gray">MITSUBISHI</span>
-        <span className="text-xs font-medium text-mitsubishi-gray/70">MOTORS</span>
+        <span className="text-xs font-medium text-mitsubishi-gray/70">ELECTRIC</span>
       </div>
     </div>
   );
