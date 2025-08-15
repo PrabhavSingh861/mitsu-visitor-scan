@@ -8,7 +8,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   const handleStartRegistration = () => {
-    navigate('/register');
+    navigate('/register-form');
   };
 
   return (

@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import VisitorForm from '@/components/VisitorForm';
-import QRScanner from '@/components/QRScanner';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import MitsubishiLogo from '@/components/MitsubishiLogo';
-import { QrCode } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import VisitorForm from "@/components/VisitorForm";
+import QRScanner from "@/components/QRScanner";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import MitsubishiLogo from "@/components/MitsubishiLogo";
+import { QrCode } from "lucide-react";
 
 type VisitorData = {
   name: string;
@@ -19,26 +19,29 @@ const Registration = () => {
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  
+
   // Check if coming from QR code
-  const fromQr = searchParams.get('qr') === 'true';
+  const fromQr = searchParams.get("qr") === "true";
 
   const handleQRScanSuccess = (result: string) => {
     // In a real app, you might parse the QR code data
-    console.log('QR Scan Result:', result);
+    console.log("QR Scan Result:", result);
     setShowForm(true);
     setShowScanner(false);
   };
 
   const handleFormSubmit = (data: VisitorData) => {
     // Store visitor data (in real app, send to API)
-    localStorage.setItem('visitorData', JSON.stringify(data));
-    navigate('/thank-you');
+    localStorage.setItem("visitorData", JSON.stringify(data));
+    navigate("/thank-you");
   };
 
   // If coming from QR code, show form directly
   if (fromQr || showForm) {
-    return <VisitorForm onSubmit={handleFormSubmit} />;
+    navigate("/register-form");
+    // return <VisitorForm
+    //   // onSubmit={handleFormSubmit}
+    //   />;
   }
 
   // Show scanner if requested
@@ -55,11 +58,11 @@ const Registration = () => {
               Point your camera at the QR code to begin registration
             </p>
           </div>
-          
+
           <QRScanner onScanSuccess={handleQRScanSuccess} />
-          
-          <Button 
-            variant="secondary" 
+
+          <Button
+            variant="secondary"
             onClick={() => setShowScanner(false)}
             className="w-full"
           >
@@ -80,11 +83,12 @@ const Registration = () => {
             Visitor Registration
           </CardTitle>
           <p className="text-muted-foreground">
-            Welcome to Mitsubishi Motors. Please choose how you'd like to register.
+            Welcome to Mitsubishi Motors. Please choose how you'd like to
+            register.
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Button 
+          <Button
             onClick={() => setShowScanner(true)}
             variant="mitsubishi"
             className="w-full"
@@ -93,7 +97,7 @@ const Registration = () => {
             <QrCode className="w-5 h-5 mr-2" />
             Scan QR Code
           </Button>
-          
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
@@ -104,8 +108,8 @@ const Registration = () => {
               </span>
             </div>
           </div>
-          
-          <Button 
+
+          <Button
             variant="secondary"
             onClick={() => setShowForm(true)}
             className="w-full"

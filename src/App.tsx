@@ -7,25 +7,34 @@ import Index from "./pages/Index";
 import Registration from "./pages/Registration";
 import ThankYou from "./pages/ThankYou";
 import NotFound from "./pages/NotFound";
+import axios from "axios";
+import VisitorForm from "./components/VisitorForm";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/thank-you" element={<ThankYou />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  axios.defaults.baseURL =
+    "https://staging.webmobrildemo.com/mitsu-backend/api/";
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/register" element={<Registration />} />
+              <Route path="/register-form" element={<VisitorForm />} />
+              <Route path="/thank-you" element={<ThankYou />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </>
+  );
+};
 
 export default App;

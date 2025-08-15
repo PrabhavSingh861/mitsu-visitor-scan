@@ -1,20 +1,29 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
-import { User, Mail, Phone, IdCard } from 'lucide-react';
-import MitsubishiLogo from './MitsubishiLogo';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import { User, Mail, Phone, IdCard } from "lucide-react";
+import MitsubishiLogo from "./MitsubishiLogo";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const visitorSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(10, 'Phone number must be at least 10 digits'),
-  employeeId: z.string().min(1, 'Employee ID is required'),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  employeeId: z.string().min(1, "Employee ID is required"),
 });
 
 type VisitorFormData = z.infer<typeof visitorSchema>;
@@ -22,31 +31,43 @@ type VisitorFormData = z.infer<typeof visitorSchema>;
 interface VisitorFormProps {
   onSubmit: (data: VisitorFormData) => void;
 }
-
-const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
+// { onSubmit }: VisitorFormProps
+const VisitorForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  
+  const navigate = useNavigate();
+
   const form = useForm<VisitorFormData>({
     resolver: zodResolver(visitorSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      employeeId: '',
+      name: "",
+      email: "",
+      phone: "",
+      employeeId: "",
     },
   });
 
   const handleSubmit = async (data: VisitorFormData) => {
+    console.log("Data", data);
     setIsSubmitting(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      onSubmit(data);
+      const res = await axios.post("register/", {
+        full_name: data.name,
+        email: data.email,
+        phone_number: data.phone,
+        employee_id: data.employeeId,
+      });
+      // await new Promise(resolve => setTimeout(resolve, 1000));
+      // onSubmit(res.data);
       toast({
         title: "Registration Successful",
         description: "Your visitor registration has been submitted.",
       });
+      setTimeout(() => {
+        localStorage.setItem("visitorData", JSON.stringify(res?.data));
+        navigate("/thank-you");
+      }, 1000);
     } catch (error) {
       toast({
         title: "Registration Failed",
@@ -72,7 +93,10 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-4"
+            >
               <FormField
                 control={form.control}
                 name="name"
@@ -83,8 +107,8 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
                       Full Name
                     </FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="Enter your full name" 
+                      <Input
+                        placeholder="Enter your full name"
                         {...field}
                         className="focus:ring-mitsubishi-red"
                       />
@@ -93,7 +117,7 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="email"
@@ -104,9 +128,9 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
                       Email Address
                     </FormLabel>
                     <FormControl>
-                      <Input 
-                        type="email" 
-                        placeholder="Enter your email address" 
+                      <Input
+                        type="email"
+                        placeholder="Enter your email address"
                         {...field}
                         className="focus:ring-mitsubishi-red"
                       />
@@ -115,7 +139,7 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="phone"
@@ -126,8 +150,8 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
                       Phone Number
                     </FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="Enter your phone number" 
+                      <Input
+                        placeholder="Enter your phone number"
                         {...field}
                         className="focus:ring-mitsubishi-red"
                       />
@@ -136,7 +160,7 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="employeeId"
@@ -147,8 +171,8 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
                       Employee ID
                     </FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="Enter your employee ID" 
+                      <Input
+                        placeholder="Enter your employee ID"
                         {...field}
                         className="focus:ring-mitsubishi-red"
                       />
@@ -157,15 +181,15 @@ const VisitorForm = ({ onSubmit }: VisitorFormProps) => {
                   </FormItem>
                 )}
               />
-              
-              <Button 
-                type="submit" 
+
+              <Button
+                type="submit"
                 variant="mitsubishi"
                 className="w-full"
                 disabled={isSubmitting}
                 size="lg"
               >
-                {isSubmitting ? 'Submitting...' : 'Complete Registration'}
+                {isSubmitting ? "Submitting..." : "Complete Registration"}
               </Button>
             </form>
           </Form>

@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import QrScanner from 'qr-scanner';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Camera, CameraOff } from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+import QrScanner from "qr-scanner";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Camera, CameraOff } from "lucide-react";
+import QRCode from "react-qr-code";
 
 interface QRScannerProps {
   onScanSuccess: (result: string) => void;
@@ -12,7 +13,7 @@ const QRScanner = ({ onScanSuccess }: QRScannerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [qrScanner, setQrScanner] = useState<QrScanner | null>(null);
   const [isScanning, setIsScanning] = useState(false);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     return () => {
@@ -23,10 +24,10 @@ const QRScanner = ({ onScanSuccess }: QRScannerProps) => {
   }, [qrScanner]);
 
   const startScanning = async () => {
-    if (!videoRef.current) return;
+    // if (!videoRef.current) return;
 
     try {
-      setError('');
+      setError("");
       const scanner = new QrScanner(
         videoRef.current,
         (result) => {
@@ -43,8 +44,8 @@ const QRScanner = ({ onScanSuccess }: QRScannerProps) => {
       setQrScanner(scanner);
       setIsScanning(true);
     } catch (err) {
-      setError('Failed to start camera. Please allow camera access.');
-      console.error('QR Scanner error:', err);
+      setError("Failed to start camera. Please allow camera access.");
+      console.error("QR Scanner error:", err);
     }
   };
 
@@ -57,6 +58,7 @@ const QRScanner = ({ onScanSuccess }: QRScannerProps) => {
     setIsScanning(false);
   };
 
+  const handleRegister = () => {};
   return (
     <Card className="w-full max-w-md mx-auto shadow-elegant">
       <CardHeader className="text-center">
@@ -69,23 +71,32 @@ const QRScanner = ({ onScanSuccess }: QRScannerProps) => {
         <div className="relative">
           <video
             ref={videoRef}
-            className={`w-full h-64 bg-muted rounded-lg ${!isScanning ? 'hidden' : ''}`}
+            className={`w-full h-64 bg-muted rounded-lg ${
+              !isScanning ? "hidden" : ""
+            }`}
           />
-          {!isScanning && (
+          <QRCode
+            size={200}
+            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+            value="https://staging.webmobrildemo.com/mitsu-backend/"
+            // value={handleRegister}
+            viewBox={`0 0 256 256`}
+          />
+          {/* {!isScanning && (
             <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center">
               <Camera className="w-12 h-12 text-muted-foreground" />
             </div>
-          )}
+          )} */}
         </div>
-        
+
         {error && (
           <p className="text-destructive text-sm text-center">{error}</p>
         )}
-        
-        <div className="flex gap-2">
+
+        {/* <div className="flex gap-2">
           {!isScanning ? (
-            <Button 
-              onClick={startScanning} 
+            <Button
+              onClick={startScanning}
               className="flex-1"
               variant="default"
             >
@@ -93,8 +104,8 @@ const QRScanner = ({ onScanSuccess }: QRScannerProps) => {
               Start Scanning
             </Button>
           ) : (
-            <Button 
-              onClick={stopScanning} 
+            <Button
+              onClick={stopScanning}
               variant="secondary"
               className="flex-1"
             >
@@ -102,7 +113,7 @@ const QRScanner = ({ onScanSuccess }: QRScannerProps) => {
               Stop Scanning
             </Button>
           )}
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );
