@@ -1,34 +1,34 @@
-# Stage 1: Build the app
+# Dockerfile
+########################################
+# Stage 1 - build the app
+########################################
 FROM node:20-alpine AS builder
-
 WORKDIR /app
 
-# Copy package.json and lock files first (better caching)
-COPY package*.json ./
-COPY pnpm-lock.yaml* ./
-COPY yarn.lock* ./
-COPY bun.lockb* ./
+# install deps
+COPY package.json package-lock.json* ./
+# if you don't have package-lock, the next copy will still work
+COPY yarn.lock* pnpm-lock.yaml* ./
 
-RUN npm install
+# install dependencies (use npm by default)
+RUN npm ci --prefer-offline --no-audit --progress=false
 
-# Copy source
+# copy source & build
 COPY . .
-
-# Build for production
 RUN npm run build
 
-# Stage 2: Serve with Nginx
-FROM nginx:alpine
+########################################
+# Stage 2 - serve with nginx
+########################################
+FROM nginx:stable-alpine
+# create folder and copy built files
+# we will copy the dist output into nginx html root
+COPY --from=builder /app/dist /usr/share/nginx/html/mitsubishi
 
-# Remove default nginx static files
-RUN rm -rf /usr/share/nginx/html/*
+# copy nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy build output to nginx html directory
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copy custom nginx config (optional)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+# expose port 80 (mapped to host 8080 in docker-compose)
 EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+# default command already provided by nginx image
