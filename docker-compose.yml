@@ -6,6 +6,7 @@ networks:
 
 services:
   mitsubishi:
+    # image: vinay0981123/mitsu:latest
     build:
       context: .
       dockerfile: Dockerfile
