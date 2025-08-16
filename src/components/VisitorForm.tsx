@@ -54,7 +54,7 @@ const VisitorForm = () => {
     setIsSubmitting(true);
     try {
       // Simulate API call
-      const res = await axios.post("register/", {
+      const res = await axios.post("https://staging.webmobrildemo.com/mitsu-backend/api/register/", {
         full_name: data.name,
         // email: data.email,
         phone_number: data.phone,
