@@ -1,0 +1,19 @@
+version: "3.9"
+
+networks:
+  mitsubishi_net:
+    driver: bridge
+
+services:
+  mitsubishi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mitsubishi_app
+    ports:
+      - "8080:8080"   # host:container (map host 8080 to nginx 80)
+    networks:
+      - mitsubishi_net
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped

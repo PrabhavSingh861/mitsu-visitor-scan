@@ -1,0 +1,7 @@
+node_modules/
+build/
+dist/
+.vscode/
+.DS_Store
+Dockerfile
+docker-compose.yml
