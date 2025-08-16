@@ -11,30 +11,25 @@ import axios from "axios";
 import VisitorForm from "./components/VisitorForm";
 
 const queryClient = new QueryClient();
-
-const App = () => {
-  axios.defaults.baseURL =
-    "https://staging.webmobrildemo.com/mitsu-backend/api/";
-  return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter basename="/mitsubishi">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/register" element={<Registration />} />
-              <Route path="/register-form" element={<VisitorForm />} />
-              <Route path="/thank-you" element={<ThankYou />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </>
-  );
-};
+const rawBase = import.meta.env.BASE_URL || "/";
+const basename = rawBase.replace(/\/$/, "");
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter basename="/mitsubishi" >
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/register" element={<Registration />} />
+          <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/register-form" element={<VisitorForm />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;

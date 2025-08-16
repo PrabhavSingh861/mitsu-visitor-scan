@@ -59,13 +59,23 @@ const ThankYou = () => {
                   <span className="font-medium">{visitorData.full_name}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Email:</span>
-                  <span className="font-medium">{visitorData.email}</span>
+                  <span className="text-muted-foreground">Phone Number:</span>
+                  <span className="font-medium">
+                    {visitorData.phone_number}
+                  </span>
                 </div>
                 <div className="flex justify-between">
+                  <span className="text-muted-foreground">Company Name:</span>
+                  <span className="font-medium">{visitorData.company_name}</span>
+                </div>
+                {/* <div className="flex justify-between">
+                  <span className="text-muted-foreground">Email:</span>
+                  <span className="font-medium">{visitorData.email}</span>
+                </div> */}
+                {/* <div className="flex justify-between">
                   <span className="text-muted-foreground">Employee ID:</span>
                   <span className="font-medium">{visitorData.employee_id}</span>
-                </div>
+                </div> */}
               </div>
             </div>
           )}

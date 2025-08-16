@@ -21,9 +21,10 @@ import { useNavigate } from "react-router-dom";
 
 const visitorSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
+  // email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  employeeId: z.string().min(1, "Employee ID is required"),
+  // employeeId: z.string().min(1, "Employee ID is required"),
+  companyName: z.string().min(2, "Name must be at least 2 characters"),
 });
 
 type VisitorFormData = z.infer<typeof visitorSchema>;
@@ -41,9 +42,10 @@ const VisitorForm = () => {
     resolver: zodResolver(visitorSchema),
     defaultValues: {
       name: "",
-      email: "",
+      // email: "",
       phone: "",
-      employeeId: "",
+      // employeeId: "",
+      companyName: "",
     },
   });
 
@@ -54,9 +56,10 @@ const VisitorForm = () => {
       // Simulate API call
       const res = await axios.post("register/", {
         full_name: data.name,
-        email: data.email,
+        // email: data.email,
         phone_number: data.phone,
-        employee_id: data.employeeId,
+        // employee_id: data.employeeId,
+        company_name: data.companyName,
       });
       // await new Promise(resolve => setTimeout(resolve, 1000));
       // onSubmit(res.data);
@@ -118,7 +121,7 @@ const VisitorForm = () => {
                 )}
               />
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
@@ -138,7 +141,7 @@ const VisitorForm = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
               <FormField
                 control={form.control}
@@ -161,7 +164,7 @@ const VisitorForm = () => {
                 )}
               />
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="employeeId"
                 render={({ field }) => (
@@ -173,6 +176,26 @@ const VisitorForm = () => {
                     <FormControl>
                       <Input
                         placeholder="Enter your employee ID"
+                        {...field}
+                        className="focus:ring-mitsubishi-red"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> */}
+              <FormField
+                control={form.control}
+                name="companyName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      Company Name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your company name"
                         {...field}
                         className="focus:ring-mitsubishi-red"
                       />
