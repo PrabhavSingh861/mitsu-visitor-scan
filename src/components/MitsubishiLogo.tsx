@@ -7,6 +7,7 @@ const MitsubishiLogo = ({ className = "" }: { className?: string }) => {
         src={mitsuLatestLogo} 
         alt="Mitsubishi Electric" 
         className="h-8 w-auto"
+        style={{width:"7rem", height:"2.5rem"}}
       />
       {/* <div className="flex flex-col">
         <span className="text-lg font-bold text-mitsubishi-gray">MITSUBISHI</span>
