@@ -20,11 +20,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const visitorSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().trim().min(2, "Name must be at least 2 characters"),
   // email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  phone: z.string().regex(/^\d+$/, "Phone number must contain only numbers")
+  .min(10, "Phone number must be at least 10 digits")
+  .max(10, "Phone number must be at max 10 digits"),
   // employeeId: z.string().min(1, "Employee ID is required"),
-  companyName: z.string().min(2, "Name must be at least 2 characters"),
+  companyName: z.string().trim().min(2, "Name must be at least 2 characters"),
 });
 
 type VisitorFormData = z.infer<typeof visitorSchema>;
@@ -55,11 +57,11 @@ const VisitorForm = () => {
     try {
       // Simulate API call
       const res = await axios.post("https://staging.webmobrildemo.com/mitsu-backend/api/register/", {
-        full_name: data.name,
+        full_name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
         // email: data.email,
         phone_number: data.phone,
         // employee_id: data.employeeId,
-        company_name: data.companyName,
+        company_name: data.companyName.charAt(0).toUpperCase() + data.companyName.slice(1),
       });
       // await new Promise(resolve => setTimeout(resolve, 1000));
       // onSubmit(res.data);
@@ -74,8 +76,8 @@ const VisitorForm = () => {
     } catch (error) {
       // console.log("err", error)
       toast({
-        title: "Registration Failed",
-        description: error.response.data.non_field_errors[0],
+        title: error.response.data.non_field_errors[0],
+        // description: error.response.data.non_field_errors[0],
         variant: "destructive",
       });
     } finally {
