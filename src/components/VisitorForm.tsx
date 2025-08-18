@@ -72,9 +72,10 @@ const VisitorForm = () => {
         navigate("/thank-you");
       }, 1000);
     } catch (error) {
+      // console.log("err", error)
       toast({
         title: "Registration Failed",
-        description: "Please try again.",
+        description: error.response.data.non_field_errors[0],
         variant: "destructive",
       });
     } finally {
